@@ -1,0 +1,20 @@
+CC = gcc
+OBJS = eurovision.o map.o judge.o state.o main.o libmtm.a
+EXEC = eurovision.exe
+DEBUG_FLAG = -g -DNDEBUG # now empty, assign -g for debug
+COMP_FLAG = -std=c99 -Wall -pedantic-errors -Werror -L. -lmtm
+
+$(EXEC) : $(OBJS)
+	$(CC) $(DEBUG_FLAG) $(OBJS) -o $@
+eurovision.o : eurovision.c eurovision.h list.h state.h map.h judge.h
+	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
+judge.o: judge.c set.h judge.h map.h
+	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
+state.o: state.c set.h state.h map.h
+	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
+map.o: map.c map.h
+	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
+main.o : list.h eurovision.h
+	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
+clean:
+	rm -f $(OBJS) $(EXEC)
